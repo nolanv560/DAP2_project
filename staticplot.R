@@ -46,7 +46,8 @@ oil_output_flaring_plot
 ## Saving plot as .png file
 ggsave(oil_output_flaring_plot, 
        filename = "oil_output_flaring_plot.png",
-       device = "png")
+       device = "png",
+       width = 8)
 
 # Plot 2: Top five gas flaring nations per year (2012-2023)
 
