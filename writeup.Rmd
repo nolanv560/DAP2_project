@@ -65,7 +65,7 @@ with United States geographic information in order to identify the spatial
 and administrative distribution of flaring sites across the country.
 
 The Air Quality Index (AQI) by the EPA comprised a time series of index 
-measurements for each reporting count in the United States. This included the 
+measurements for each reporting county in the United States. This included the 
 number of days with different levels of air quality, as well as the total 
 number of days in the year for which AQI observations were recorded. This .csv
 file was cleaned and matched with United States and geographical information. 
@@ -76,9 +76,9 @@ flaring counties (especially in Texas, the state with the highest number of
 flaring sites, with barely 17% of coverage). State-level data was not
 available.
 
-The Air Quality Life Index (AQLI) by EPA comprised a time series containing
-measurements of population-weightedatmospheric particulate pollution 
-(particulate mater (PM) 2.5 micograms per cubic meter or less), which is the 
+The Air Quality Life Index (AQLI) by EPIC comprised a time series containing
+measurements of population-weighted atmospheric particulate pollution 
+(particulate mater (PM) 2.5 micrograms per cubic meter or less), which is the 
 most serious measure of air pollution, alongside estimations of additional days
 of live saved if WHO and U.S. air quality standards were met. This information 
 was available for all U.S. states. The dataset was cleaned and merged with 

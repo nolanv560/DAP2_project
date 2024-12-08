@@ -52,14 +52,39 @@ flaring_2023 <- read_excel(paste0(path, "VIIRS_Global_flaring_d.7_slope_0.029353
 
 # Air Quality Index - EPA
 
-## Retrieving online data using API endpoint
+## Option to use archived version of retrieved dataset
+use_archived_data <- readline("Would you like to retrieve dataset from the web?(Yes/No): ")
+archived_data <- "annual_aqi_by_county_2023.zip"
 aqi_url <- "https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2023.zip"
-response <- GET(aqi_url)
-aqi <- content(response, as = "raw")
-writeBin(aqi, "annual_aqi_by_county_2023.zip")
-aqi <- unzip("annual_aqi_by_county_2023.zip")
-aqi <- lapply(aqi, read.csv, row.names = NULL)
-aqi <- do.call(rbind, aqi)
+
+## Load data based on input
+if (tolower(use_archived_data) == "yes" & file.exists(archived_data)) {
+  message("Loading archived dataset.")
+  zippath <- path
+  zipF <- list.files(zippath, pattern = "^annual_aqi_by_county_\\d{4}\\.zip$", full.names = TRUE)
+  zipF <- sapply(zipF, unzip)
+  aqi <- lapply(zipF, read.csv, row.names = NULL)
+  aqi <- do.call(rbind, aqi)
+} else {
+  message("Retrieving data using API.")
+  response <- GET(aqi_url)
+  aqi <- content(response, as = "raw")
+  writeBin(aqi, "annual_aqi_by_county_2023.zip")
+  aqi <- unzip("annual_aqi_by_county_2023.zip")
+  aqi <- lapply(aqi, read.csv, row.names = NULL)
+  aqi <- do.call(rbind, aqi)
+  
+  message("Data have been retrieved.")
+}
+
+## It is an option to manually retrieve online data using API endpoint as follows.
+## aqi_url <- "https://aqs.epa.gov/aqsweb/airdata/annual_aqi_by_county_2023.zip"
+## response <- GET(aqi_url)
+## aqi <- content(response, as = "raw")
+## writeBin(aqi, "annual_aqi_by_county_2023.zip")
+## aqi <- unzip("annual_aqi_by_county_2023.zip")
+## aqi <- lapply(aqi, read.csv, row.names = NULL)
+## aqi <- do.call(rbind, aqi)
 
 ## Alternatively, these data have been downloaded and can be loaded using your persona path file as follows.
 ## zippath <- "your-path-here"

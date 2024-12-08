@@ -27,19 +27,15 @@ counties <- us_map(regions = "county")
 
 ## UI set up
 
-flaring_data_2023 <- flaring_data %>% filter(year == 2023)
-
 ui <- fluidPage(
-  titlePanel("Gas flaring sites by U.S. state, 2023"),
+  titlePanel("Gas flaring sites by U.S. state, 2012-2023"),
   
   sidebarLayout(
     sidebarPanel(
       
+      selectInput(inputId = "year", label = "Please choose a year", choices = 2012:2023),
       selectInput(inputId = "state", label = "Please choose a state", 
-                  choices = flaring_data_2023 %>%
-                    pull(state) %>%
-                    unique() %>%
-                    sort())
+                  choices = NULL)
       
     ),
     
@@ -51,15 +47,26 @@ ui <- fluidPage(
 )
 
 ## Server set up
+
 server <- function(input, output) {
-  flaring_data_state <- reactive({
-    flaring_data %>% filter(state == input$state)
+  flaring_data_year <- reactive({
+    flaring_data |> filter(year == input$year)
+  })
+  
+  observeEvent(flaring_data_year(), {
+    state_choices <- unique(flaring_data_year()$state)
+    state_choices <- sort(state_choices)
+    updateSelectInput(inputId = "state", choices = state_choices)
+  })
+  
+  flaring_data_year_state <- reactive({
+    flaring_data_year() %>% filter(state == input$state)
   })
   
   output$map <- renderPlot({
     ggplot(states) +
       geom_sf() +
-      geom_sf(data = flaring_data_state(), aes(geometry = geom)) +
+      geom_sf(data = flaring_data_year_state(), aes(geometry = geom)) +
       theme_void()
   })
   
@@ -68,7 +75,7 @@ server <- function(input, output) {
     
     ggplot(counties_filtered) +
       geom_sf() +
-      geom_sf(data = flaring_data_state(), aes(geometry = geom)) +
+      geom_sf(data = flaring_data_year_state(), aes(geometry = geom)) +
       theme_void()
   })
 }
