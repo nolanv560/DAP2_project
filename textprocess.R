@@ -72,7 +72,8 @@ afinn_plot
 
 ggsave(afinn_plot, 
        filename = "afinn_plot.png",
-       device = "png")
+       device = "png",
+       width = 8)
 
 # NRC sentiment analysis
 
@@ -89,7 +90,8 @@ nrc_plot
 
 ggsave(nrc_plot, 
        filename = "nrc_plot.png",
-       device = "png")
+       device = "png",
+       width = 8)
 
 # Bing sentiment analysis
 
@@ -106,4 +108,5 @@ bing_plot
 
 ggsave(bing_plot, 
        filename = "bing_plot.png",
-       device = "png")
+       device = "png",
+       width = 8)
