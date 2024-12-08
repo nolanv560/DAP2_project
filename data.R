@@ -62,6 +62,7 @@ aqi <- lapply(aqi, read.csv, row.names = NULL)
 aqi <- do.call(rbind, aqi)
 
 ## Alternatively, these data have been downloaded and can be loaded using your persona path file as follows.
+## zippath <- "your-path-here"
 ## zipF <- list.files(zippath, pattern = "^annual_aqi_by_county_\\d{4}\\.zip$", full.names = TRUE)
 ## zipF <- sapply(zipF, unzip)
 ## aqi <- lapply(zipF, read.csv, row.names = NULL)
